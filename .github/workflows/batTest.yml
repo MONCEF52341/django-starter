@@ -1,0 +1,53 @@
+name: Test Windows Django Setup
+
+on: [push, pull_request]
+
+jobs:
+  test-windows-setup:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pipenv
+
+    - name: Run Windows setup script
+      shell: cmd
+      run: django-starter.bat
+
+    - name: Verify file structure
+      run: |
+        dir
+        if not exist db.sqlite3 exit 1
+        if not exist .env exit 1
+        if not exist .flake8 exit 1
+        if not exist main exit 1
+        if not exist manage.py exit 1
+        if not exist Pipfile exit 1
+        if not exist pytest.ini exit 1
+        if not exist static exit 1
+        if not exist requirements.txt exit 1
+
+    - name: Check server health
+      run: |
+        $serverJob = Start-Process -NoNewWindow -PassThru "pipenv" "run python manage.py runserver 0.0.0.0:8000"
+        Start-Sleep -Seconds 15
+        
+        $response = Invoke-WebRequest -Uri "http://localhost:8000/admin/" -UseBasicParsing
+        if ($response.StatusCode -ne 200) { exit 1 }
+        if (-not $response.Content.Contains("Django administration")) { exit 1 }
+        
+        Stop-Process -Id $serverJob.Id -Force
+
+    - name: Test database and migrations
+      run: |
+        pipenv run python manage.py makemigrations --check --dry-run
+        pipenv run python manage.py check
