@@ -16,3 +16,10 @@ pipenv install flake8 black isort pytest pytest-django django-silk django-debug-
 
 # Création du projet Django
 pipenv run django-admin startproject $PROJECT_NAME .
+
+# Modification de settings.py
+SETTINGS_FILE="$PROJECT_NAME/settings.py"
+echo "⚙️  Mise à jour de $SETTINGS_FILE..."
+
+# Importation de decouple en haut du fichier
+sed -i "1s|^|from decouple import Csv, config\n|" "$SETTINGS_FILE"
