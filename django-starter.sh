@@ -47,3 +47,9 @@ DATABASES = {
     }
 }
 EOL
+
+
+# Remplacement de SECRET_KEY, DEBUG et ALLOWED_HOSTS
+sed -i 's/^SECRET_KEY = .*/SECRET_KEY = config("SECRET_KEY")/' "$SETTINGS_FILE"
+sed -i 's/^DEBUG = .*/DEBUG = config("DEBUG", default=False, cast=bool)/' "$SETTINGS_FILE"
+sed -i 's/^ALLOWED_HOSTS = .*/ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())/' "$SETTINGS_FILE"
