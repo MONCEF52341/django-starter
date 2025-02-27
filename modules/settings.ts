@@ -37,7 +37,6 @@ export async function updateSettings(projectName: string): Promise<void> {
         #'PASSWORD': config('DB_PASSWORD', default=''),
         #'HOST': config('DB_HOST', default='localhost'),
         #'PORT': config('DB_PORT', default=''),
-    }
 }`;
   settingsContent = settingsContent.replace(databasesRegex, newDatabases);
 
