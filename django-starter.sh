@@ -107,3 +107,19 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 EOL
+
+# Création du fichier .flake8
+echo "📄 Création du fichier .flake8..."
+cat <<EOL > .flake8
+[flake8]
+max-line-length = 88
+exclude = migrations, __pycache__, manage.py, settings.py
+EOL
+
+# Création du fichier pytest.ini
+echo "📄 Création du fichier pytest.ini..."
+cat <<EOL > pytest.ini
+[pytest]
+DJANGO_SETTINGS_MODULE = main.settings
+python_files = tests.py test_*.py *_tests.py
+EOL
