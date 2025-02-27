@@ -30,3 +30,20 @@ awk '/django\.contrib\.admin/ {print "    '\''jazzmin'\'',"}1' "$SETTINGS_FILE" 
 
 # Ajout de "django_extensions"
 sed -i "/'django.contrib.admin'/a \    'django_extensions'," "$SETTINGS_FILE"
+
+
+# Remplacement de la configuration DATABASES
+sed -i "/DATABASES = {/,+6d" "$SETTINGS_FILE"
+cat <<EOL >> "$SETTINGS_FILE"
+
+DATABASES = {
+    "default": {
+        "ENGINE": config("DB_ENGINE", default="django.db.backends.sqlite3"),
+        "NAME": config("DB_NAME", default=BASE_DIR / "db.sqlite3"),
+        #'USER': config('DB_USER', default=''),
+        #'PASSWORD': config('DB_PASSWORD', default=''),
+        #'HOST': config('DB_HOST', default='localhost'),
+        #'PORT': config('DB_PORT', default=''),
+    }
+}
+EOL
