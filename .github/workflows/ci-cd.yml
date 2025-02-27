@@ -1,0 +1,119 @@
+name: Django Starter CI/CD
+on: 
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
+      
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      
+      - name: Run Django setup
+        run: |
+          deno run --allow-read --allow-write --allow-run --allow-env main.ts --name testapp
+      
+      - name: Verify file structure
+        run: |
+          ls -la
+          ls db.sqlite3 .env .flake8 testapp/ manage.py Pipfile* pytest.ini static/ requirements.txt
+      
+      - name: Check server health
+        run: |
+          # Démarrer le serveur en arrière-plan
+          pipenv run python manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
+          SERVER_PID=$!
+          # Attendre le démarrage
+          sleep 15
+          # Vérifier l'accès à l'admin
+          curl -Lfs -o /dev/null -w "%{http_code}" http://localhost:8000/admin/ | grep 200
+          curl -Ls http://localhost:8000/admin/ | grep "Django administration"
+          # Arrêter le serveur
+          kill $SERVER_PID
+          # Vérifier les logs d'erreur
+          ! grep -q "Error" server.log
+      
+      - name: Test database migration
+        run: |
+          pipenv run python manage.py makemigrations --check --dry-run
+          pipenv run python manage.py check
+
+  build-executables:
+    needs: test-setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [windows, macos, linux]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      
+      - name: Compile executable for ${{ matrix.platform }}
+        run: |
+          TARGET=${{ matrix.platform }}
+          OUTPUT_NAME="django-starter-$TARGET"
+          
+          if [ "$TARGET" == "windows" ]; then
+            OUTPUT_NAME="$OUTPUT_NAME.exe"
+            TARGET_ARG="x86_64-pc-windows-msvc"
+          elif [ "$TARGET" == "macos" ]; then
+            TARGET_ARG="x86_64-apple-darwin"
+          else
+            TARGET_ARG="x86_64-unknown-linux-gnu"
+          fi
+          
+          deno compile --allow-read --allow-write --allow-run --allow-env --target $TARGET_ARG --output $OUTPUT_NAME main.ts
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: django-starter-${{ matrix.platform }}
+          path: django-starter-${{ matrix.platform }}*
+          if-no-files-found: error
+
+  release:
+    needs: build-executables
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            django-starter-windows/*
+            django-starter-macos/*
+            django-starter-linux/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
