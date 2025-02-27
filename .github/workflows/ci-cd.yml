@@ -109,9 +109,10 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
+          tag_name: v1.0.0 # à retirer
+          name: Release v1.0.0 # à retirer
           files: |
             django-starter-windows/*
             django-starter-macos/*
