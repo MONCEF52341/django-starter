@@ -145,6 +145,8 @@ DB_NAME=db.sqlite3
 # DB_PORT=5432
 EOL
 
+mkdir static
+
 pipenv requirements --exclude-markers > requirements.txt
 
 pipenv run python manage.py makemigrations
