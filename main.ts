@@ -1,9 +1,9 @@
 // django_setup.ts
-import { parse } from "https://deno.land/std@0.224.0/flags/mod.ts";
 import { ensureDir } from "https://deno.land/std@0.224.0/fs/mod.ts";
+import { parseArgs } from "jsr:@std/cli/parse-args";
 
 // Analyse des arguments
-const args = parse(Deno.args, {
+const args = parseArgs(Deno.args, {
   string: ["name"],
   default: { name: "main" },
 });
@@ -58,6 +58,7 @@ async function initProject(): Promise<void> {
   console.log("🛠️  Initialisation du projet Django...");
 
   // Installation des dépendances
+  console.log("Téléchargement des Dépendences (c'est long parce qu'elles sont lockées) ...");
   await runCommand("pipenv install django django-extensions django-jazzmin python-decouple");
   await runCommand("pipenv install flake8 black isort pytest pytest-django django-silk django-debug-toolbar --dev");
 
@@ -78,14 +79,20 @@ async function updateSettings(): Promise<void> {
 
   // Ajouter Jazzmin au-dessus de django.contrib.admin
   settingsContent = settingsContent.replace(
-    /'django\.contrib\.admin'/,
-    `'jazzmin',\n    'django.contrib.admin'`
+    "django.contrib.admin",
+    `jazzmin",\n    "django.contrib.admin,`
   );
 
   // Ajouter django_extensions après django.contrib.admin
   settingsContent = settingsContent.replace(
-    /'django\.contrib\.admin',/,
-    `'django.contrib.admin',\n    'django_extensions',`
+    "django.contrib.admin,",
+    `django.contrib.admin",\n    "django_extensions`
+  );
+
+  // Mettre Django en français
+  settingsContent = settingsContent.replace(
+    "en-us",
+    "fr-fr"
   );
 
   // Remplacer la configuration DATABASES
