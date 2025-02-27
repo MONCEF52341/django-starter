@@ -31,8 +31,8 @@ echo ⚙️  Mise à jour de %SETTINGS_FILE%...
 powershell -Command "(Get-Content '%SETTINGS_FILE%') | ForEach-Object { $_ -replace '^import os$', 'import os\nfrom decouple import Csv, config\nfrom pathlib import Path' } | Set-Content '%SETTINGS_FILE%'"
 
 :: Ajout de jazzmin et django_extensions
-powershell -Command "(Get-Content '%SETTINGS_FILE%') | ForEach-Object { $_ -replace 'django.contrib.admin', 'jazzmin\',\n    'django.contrib.admin' } | Set-Content '%SETTINGS_FILE%'"
-powershell -Command "(Get-Content '%SETTINGS_FILE%') | ForEach-Object { $_ -replace '    '\''django.contrib.admin'\'',', '    '\''django_extensions'\'',\n    '\''django.contrib.admin'\'',\n    '\''jazzmin'\'',' } | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "(Get-Content '%SETTINGS_FILE%') | ForEach-Object { $_ -replace 'django.contrib.admin', 'jazzmin' } | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "(Get-Content '%SETTINGS_FILE%') | ForEach-Object { $_ -replace 'django.contrib.admin', 'django_extensions', 'jazzmin' } | Set-Content '%SETTINGS_FILE%'"
 
 :: Remplacement de la configuration DATABASES
 powershell -Command "(Get-Content '%SETTINGS_FILE%') -replace 'DATABASES = {.*?}' -replace '(?s)DATABASES = {.*?}', '' | Set-Content temp.py"
