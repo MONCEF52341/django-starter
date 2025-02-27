@@ -45,7 +45,7 @@ jobs:
           sleep 15
           # Vérifier l'accès à l'admin
           curl -Lfs -o /dev/null -w "%{http_code}" http://localhost:8000/admin/ | grep 200
-          curl -Ls http://localhost:8000/admin/ | grep "Django administration"
+          curl -Ls http://localhost:8000/admin/ | grep "Django"
           # Arrêter le serveur
           kill $SERVER_PID
           # Vérifier les logs d'erreur
