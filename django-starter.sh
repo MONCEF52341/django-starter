@@ -149,3 +149,15 @@ pipenv requirements --exclude-markers > requirements.txt
 
 pipenv run python manage.py makemigrations
 pipenv run python manage.py migrate
+
+
+pipenv run python manage.py shell <<EOF
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+if not User.objects.filter(username="admin").exists():
+    User.objects.create_superuser("admin", "admin@example.com", "admin")
+    print("✅ Superutilisateur 'admin' créé avec succès.")
+else:
+    print("⚠️  Le superutilisateur 'admin' existe déjà.")
+EOF
