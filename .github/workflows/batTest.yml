@@ -24,19 +24,21 @@ jobs:
       run: django-starter.bat
 
     - name: Verify file structure
+      shell: cmd
       run: |
         dir
-        if not exist db.sqlite3 exit 1
-        if not exist .env exit 1
-        if not exist .flake8 exit 1
-        if not exist main exit 1
-        if not exist manage.py exit 1
-        if not exist Pipfile exit 1
-        if not exist pytest.ini exit 1
-        if not exist static exit 1
-        if not exist requirements.txt exit 1
+        if not exist db.sqlite3 exit /b 1
+        if not exist .env exit /b 1
+        if not exist .flake8 exit /b 1
+        if not exist main exit /b 1
+        if not exist manage.py exit /b 1
+        if not exist Pipfile exit /b 1
+        if not exist pytest.ini exit /b 1
+        if not exist static exit /b 1
+        if not exist requirements.txt exit /b 1
 
     - name: Check server health
+      shell: powershell
       run: |
         $serverJob = Start-Process -NoNewWindow -PassThru "pipenv" "run python manage.py runserver 0.0.0.0:8000"
         Start-Sleep -Seconds 15
@@ -48,6 +50,7 @@ jobs:
         Stop-Process -Id $serverJob.Id -Force
 
     - name: Test database and migrations
+      shell: cmd
       run: |
         pipenv run python manage.py makemigrations --check --dry-run
         pipenv run python manage.py check
