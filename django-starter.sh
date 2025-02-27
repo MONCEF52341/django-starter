@@ -64,3 +64,23 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # MEDIA FILES (fichiers uploadés par les utilisateurs)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Dev Tools
+if DEBUG:
+    INSTALLED_APPS += [
+        "debug_toolbar",
+        "silk",
+    ]
+
+    MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        "silk.middleware.SilkyMiddleware",
+    ] + MIDDLEWARE
+
+    INTERNAL_IPS = ["127.0.0.1"]
+
+    # Silk Config (optionnel)
+    SILKY_PYTHON_PROFILER = True
+    SILKY_AUTHENTICATION = False
+    SILKY_AUTHORISATION = False
+EOL
