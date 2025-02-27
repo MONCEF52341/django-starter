@@ -165,3 +165,6 @@ EOF
 
 pipenv run black .
 pipenv run isort .
+
+
+echo "✅ Projet Django configuré avec succès !"
