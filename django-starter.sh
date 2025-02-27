@@ -146,3 +146,6 @@ DB_NAME=db.sqlite3
 EOL
 
 pipenv requirements --exclude-markers > requirements.txt
+
+pipenv run python manage.py makemigrations
+pipenv run python manage.py migrate
