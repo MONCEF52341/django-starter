@@ -1,4 +1,4 @@
-name: Test Django Setup
+name: Test Linux Django Setup
 
 on: [push, pull_request]
 
