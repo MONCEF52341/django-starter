@@ -161,3 +161,7 @@ if not User.objects.filter(username="admin").exists():
 else:
     print("⚠️  Le superutilisateur 'admin' existe déjà.")
 EOF
+
+
+pipenv run black .
+pipenv run isort .
