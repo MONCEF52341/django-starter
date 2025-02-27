@@ -144,3 +144,5 @@ DB_NAME=db.sqlite3
 # DB_HOST=localhost
 # DB_PORT=5432
 EOL
+
+pipenv requirements --exclude-markers > requirements.txt
