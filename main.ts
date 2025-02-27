@@ -78,13 +78,13 @@ async function updateSettings(): Promise<void> {
 
   // Ajouter Jazzmin au-dessus de django.contrib.admin
   settingsContent = settingsContent.replace(
-    /'django.contrib.admin'/,
+    /'django\.contrib\.admin'/,
     `'jazzmin',\n    'django.contrib.admin'`
   );
 
-  // Ajouter django_extensions
+  // Ajouter django_extensions après django.contrib.admin
   settingsContent = settingsContent.replace(
-    /'django.contrib.admin',/,
+    /'django\.contrib\.admin',/,
     `'django.contrib.admin',\n    'django_extensions',`
   );
 
