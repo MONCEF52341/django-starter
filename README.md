@@ -59,35 +59,35 @@ Une fois le serveur démarré, ouvrez votre navigateur à l'adresse suivante :
 
 Accédez à [http://localhost:8000](http://localhost:8000). Vous devriez voir une erreur 404, ce qui est normal puisque l'URL de base n'est pas encore définie.
 
-![Image 1](image1.png)  
+![Image 1](img/image1.png)  
 *Page d'accueil avec une erreur 404.*
 
 ### 2. Panneau d'administration
 
 Accédez à [http://localhost:8000/admin](http://localhost:8000/admin) pour voir la page de connexion à l'administration Django.
 
-![Image 2](image2.png)  
+![Image 2](img/image2.png)  
 *Page de connexion du panneau d'administration (identifiants par défaut : admin / admin).*
 
 ### 3. Panel d'administration Jazzmin
 
 Une fois connecté avec les identifiants par défaut (`admin` / `admin`), vous serez redirigé vers le panneau d'administration configuré avec Jazzmin.
 
-![Image 3](image3.png)  
+![Image 3](img/image3.png)  
 *Panneau d'administration avec Jazzmin.*
 
 ### 4. Panel d'administration classique
 
 Sans Jazzmin ça rend beaucoup moins bien quand meme.
 
-![Image 4](image4.png)  
+![Image 4](img/image4.png)  
 *Panneau d'administration Django classique.*
 
 ### 5. Erreur 404 avec `DEBUG=False`
 
 Si vous définissez `DEBUG=False` dans le fichier `.env` et que vous essayez d'accéder à une page inexistante, vous recevrez une erreur 404 du navigateur.
 
-![Image 5](image5.png)  
+![Image 5](img/image5.png)  
 *Page 404 classique avec `DEBUG=False`, On remarque également que la toolbar a disparue.*
 
 ## Configuration
