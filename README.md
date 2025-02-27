@@ -24,7 +24,7 @@ sudo dnf install pipenv
 
 ## Pourquoi `pipenv` et pas juste `pip` avec un `venv` ?
 
-`pipenv` est utilisé dans ce script car il offre une gestion plus avancée des dépendances par rapport à `pip`. Il permet notamment de séparer facilement les dépendances de développement avc le flag (`--dev`) des dépendances de production, ce qui facilite la gestion des environnements et des déploiements, puisqu'on n'a pas à trier dans le requirement.txt.
+`pipenv` est utilisé dans ce script car il offre une gestion plus avancée des dépendances par rapport à `pip`. Il permet notamment de séparer facilement les dépendances de développement avec le flag (`--dev`) des dépendances de production, ce qui facilite la gestion des environnements et des déploiements, puisqu'on n'a pas à trier dans le requirement.txt.
 
 
 ## Étapes d'installation
