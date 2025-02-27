@@ -123,3 +123,24 @@ cat <<EOL > pytest.ini
 DJANGO_SETTINGS_MODULE = main.settings
 python_files = tests.py test_*.py *_tests.py
 EOL
+
+
+# Création du fichier .env
+echo "📄 Création du fichier .env..."
+cat <<EOL > .env
+DEBUG=True
+SECRET_KEY="django-insecure-x=ak0e3g*40827oz!lla93#^_!atgjko72b&5b%lo^f1geq@(!"
+ALLOWED_HOSTS=127.0.0.1,localhost
+
+
+DB_ENGINE=django.db.backends.sqlite3
+DB_NAME=db.sqlite3
+
+# Exemple pour PostgreSQL (au cas où)
+# DB_ENGINE=django.db.backends.postgresql
+# DB_NAME=nom_de_la_db
+# DB_USER=utilisateur
+# DB_PASSWORD=mot_de_passe
+# DB_HOST=localhost
+# DB_PORT=5432
+EOL
