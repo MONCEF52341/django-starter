@@ -29,15 +29,9 @@ sudo dnf install pipenv
 
 ## Étapes d'installation
 
-1. Téléchargez le script sur votre machine.
+1. Téléchargez l'executable adapté à votre plateforme
 
-2. Ouvrez un terminal dans le répertoire de votre projet et exécutez la commande suivante pour créer un environnement virtuel avec `pipenv` et installer les dépendances :
-
-    ```bash
-    ./django-starter.sh
-    ```
-
-    Cela démarrera un projet Django configuré.
+2. Executez le programme
 
 3. Une fois l'installation terminée, entrez dans l'environnement virtuel :
 
