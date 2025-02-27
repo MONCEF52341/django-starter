@@ -23,3 +23,10 @@ echo "⚙️  Mise à jour de $SETTINGS_FILE..."
 
 # Importation de decouple en haut du fichier
 sed -i "1s|^|from decouple import Csv, config\n|" "$SETTINGS_FILE"
+
+
+# Ajout de "jazzmin" au-dessus de "django.contrib.admin"
+awk '/django\.contrib\.admin/ {print "    '\''jazzmin'\'',"}1' "$SETTINGS_FILE" > temp && mv temp "$SETTINGS_FILE"
+
+# Ajout de "django_extensions"
+sed -i "/'django.contrib.admin'/a \    'django_extensions'," "$SETTINGS_FILE"
