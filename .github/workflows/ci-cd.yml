@@ -99,6 +99,8 @@ jobs:
     needs: build-executables
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Download all artifacts
