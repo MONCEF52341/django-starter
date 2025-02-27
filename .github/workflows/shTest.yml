@@ -21,8 +21,8 @@ jobs:
 
     - name: Run setup script
       run: |
-        chmod +x setup.sh
-        ./setup.sh
+        chmod +x django-starter.sh
+        ./django-starter.sh
 
     - name: Verify file structure
       run: |
